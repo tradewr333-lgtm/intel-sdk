@@ -163,7 +163,9 @@ def send_telegram(text: str) -> str:
 
 
 def fit_x(text: str) -> str:
-    """X limit is 280 chars for non-premium accounts; trim middle lines, never the disclaimer."""
+    """X version: no URL (X pay-per-use bills a post with a link at $0.20 vs $0.015 without — link stays in the bio),
+    280-char limit for non-premium accounts; trim middle lines, never the disclaimer."""
+    text = text.replace(SITE, "Link in bio." if LANG == "en" else "Link na bio.")
     if len(text) <= 280:
         return text
     lines = text.split("\n")
