@@ -125,7 +125,20 @@ def post_eligible(intel: IntelClient) -> tuple[str, str] | None:
     return (f"eligible:{r.get('as_of')}", "\n".join([head, *lines, SITE, disclaimer()]))
 
 
-BUILDERS = {"xdex": post_xdex, "naked": post_naked, "spotperp": post_spotperp, "afterhours": post_afterhours, "eligible": post_eligible}
+def post_stats(intel: IntelClient) -> tuple[str, str] | None:
+    """Free route: dataset size. Used as the first/fallback post and when no carry key is configured."""
+    r = intel.carry_stats()
+    f = r.get("funding") or {}
+    head = "Hyperliquid funding dataset, every dex, every hour:" if LANG == "en" else "Dataset de funding da Hyperliquid, todos os dexes, hora a hora:"
+    lines = [
+        f"{f.get('rows', 0):,} hourly funding rows · {f.get('coins', 0)} perps · {f.get('dexes', 0)} dexes",
+        (f"since {str(f.get('first_hour', ''))[:10]} — beyond Hyperliquid's 500 h API window" if LANG == "en" else f"desde {str(f.get('first_hour', ''))[:10]} — além da janela de 500 h da API da Hyperliquid"),
+        "API · MCP (npx degenscan-intel-mcp) · x402 pay-per-call",
+    ]
+    return (f"stats:{f.get('last_hour')}", "\n".join([head, *lines, SITE, disclaimer()]))
+
+
+BUILDERS = {"stats": post_stats, "xdex": post_xdex, "naked": post_naked, "spotperp": post_spotperp, "afterhours": post_afterhours, "eligible": post_eligible}
 ROTATION = ["xdex", "naked", "spotperp", "afterhours", "eligible", "xdex", "naked", "spotperp"]
 
 
@@ -169,7 +182,11 @@ def main() -> int:
     kind = os.environ.get("POSTER_KIND", "auto")
     if kind == "auto":
         kind = ROTATION[datetime.now(timezone.utc).hour % len(ROTATION)]
-    built = BUILDERS[kind](intel)
+    try:
+        built = BUILDERS[kind](intel)
+    except Exception as e:  # no carry key yet (402/403) -> fall back to the free stats post
+        print(f"[{kind}] {e}; falling back to stats")
+        kind, built = "stats", post_stats(intel)
     if not built:
         print(f"[{kind}] nothing to post")
         return 0
