@@ -27,7 +27,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import httpx
-from degenscan_intel import IntelClient, IntelError
+from degenscan_intel import Intel as IntelClient, IntelError  # PyPI degenscan-intel >= 0.3.0
 
 DISCLAIMER_EN = "Market data and analytics only — not a signal, not investment advice."
 DISCLAIMER_PT = "Informação e análise, não é recomendação de investimento."
@@ -177,7 +177,8 @@ def fit_x(text: str) -> str:
 # ------------------------------------------------------------------ main
 
 def main() -> int:
-    intel = IntelClient()
+    key_env = os.environ.get("DEGENSCAN_API_KEY") or None
+    intel = IntelClient(api_key=key_env, free_trial=not key_env)
     state = json.loads(STATE.read_text()) if STATE.exists() else {"posted": []}
     kind = os.environ.get("POSTER_KIND", "auto")
     if kind == "auto":
