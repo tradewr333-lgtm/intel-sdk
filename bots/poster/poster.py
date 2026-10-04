@@ -199,10 +199,21 @@ def main() -> int:
     if DRY:
         return 0
     out = {}
+    errors = {}
     if os.environ.get("X_API_KEY"):
-        out["x"] = send_x(fit_x(text))
+        try:
+            out["x"] = send_x(fit_x(text))
+        except Exception as e:  # e.g. 402 = X pay-per-use credits exhausted; keep posting elsewhere
+            errors["x"] = str(e)
     if os.environ.get("TELEGRAM_BOT_TOKEN"):
-        out["telegram"] = send_telegram(text)
+        try:
+            out["telegram"] = send_telegram(text)
+        except Exception as e:
+            errors["telegram"] = str(e)
+    if not out:
+        raise RuntimeError(f"no channel accepted the post: {errors}")
+    if errors:
+        print(json.dumps({"errors": errors}), file=sys.stderr)
     state["posted"] = (state["posted"] + [key])[-500:]
     STATE.parent.mkdir(parents=True, exist_ok=True)
     STATE.write_text(json.dumps(state))
