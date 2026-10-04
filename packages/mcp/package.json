@@ -1,0 +1,38 @@
+{
+  "name": "degenscan-intel-mcp",
+  "version": "0.1.0",
+  "description": "MCP server (stdio) for the Degenscan Intel API: Hyperliquid funding & carry data across all dexes (HIP-3 included), cross-dex spreads, spot×perp, eligibility/capacity/realized/after-hours, event feed, Polymarket context and a forecast oracle. Pay per call in USDC via x402 or use an API key.",
+  "keywords": ["mcp", "model-context-protocol", "hyperliquid", "funding-rate", "carry", "hip-3", "x402", "usdc", "ai-agents", "claude", "cursor", "polymarket", "market-data"],
+  "homepage": "https://intel.degenscan.io",
+  "repository": { "type": "git", "url": "https://github.com/tradewr333-lgtm/intel-sdk", "directory": "packages/mcp" },
+  "license": "MIT",
+  "author": "Marbella Collins LLC <contact@degenscan.io>",
+  "type": "module",
+  "bin": { "degenscan-intel-mcp": "./dist/server.js" },
+  "files": ["dist", "README.md", "LICENSE"],
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "build": "tsup src/server.ts --format esm --clean --target node18 && node -e \"require('fs').chmodSync('dist/server.js',0o755)\"",
+    "test": "node --test --import tsx test/*.test.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.0",
+    "degenscan-intel": "^0.1.0",
+    "zod": "^4.0.0"
+  },
+  "optionalDependencies": {
+    "@scure/base": "^1.2.0",
+    "@solana/kit": "^5.1.0",
+    "@x402/evm": "^2.28.0",
+    "@x402/fetch": "^2.28.0",
+    "@x402/svm": "^2.28.0",
+    "viem": "^2.21.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsup": "^8.5.1",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}

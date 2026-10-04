@@ -1,0 +1,21 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
+  "name": "io.github.tradewr333-lgtm/intel",
+  "description": "Hyperliquid funding & carry data across all dexes (HIP-3 included), cross-dex spreads, spot×perp, eligibility/capacity/realized/after-hours, event feed, Polymarket context and a forecast oracle. Pay per call in USDC via x402 or use an API key. Market data only — not investment advice.",
+  "version": "0.1.0",
+  "repository": { "url": "https://github.com/tradewr333-lgtm/intel-sdk", "source": "github" },
+  "websiteUrl": "https://intel.degenscan.io",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "degenscan-intel-mcp",
+      "version": "0.1.0",
+      "transport": { "type": "stdio" },
+      "environmentVariables": [
+        { "name": "DEGENSCAN_API_KEY", "description": "dsi_ key (Carry Data / Carry Desk / prepaid pack). Optional if an x402 wallet is set.", "isRequired": false, "isSecret": true },
+        { "name": "DEGENSCAN_X402_EVM_KEY", "description": "0x private key to pay per call in USDC on Base (optional).", "isRequired": false, "isSecret": true }
+      ]
+    }
+  ],
+  "remotes": [ { "type": "streamable-http", "url": "https://intel.degenscan.io/mcp" } ]
+}

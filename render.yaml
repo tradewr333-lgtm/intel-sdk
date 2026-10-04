@@ -1,0 +1,43 @@
+services:
+  - type: cron
+    name: degenscan-intel-poster-en
+    runtime: python
+    schedule: "7 * * * *"
+    buildCommand: pip install -r bots/poster/requirements.txt
+    startCommand: python bots/poster/poster.py
+    envVars:
+      - key: POSTER_LANG
+        value: en
+      - key: POSTER_STATE
+        value: /tmp/state-en.json
+      - key: DEGENSCAN_API_KEY
+        sync: false
+      - key: X_API_KEY
+        sync: false
+      - key: X_API_SECRET
+        sync: false
+      - key: X_ACCESS_TOKEN
+        sync: false
+      - key: X_ACCESS_SECRET
+        sync: false
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        value: "@degenscan_intel"
+  - type: cron
+    name: degenscan-intel-poster-pt
+    runtime: python
+    schedule: "37 * * * *"
+    buildCommand: pip install -r bots/poster/requirements.txt
+    startCommand: python bots/poster/poster.py
+    envVars:
+      - key: POSTER_LANG
+        value: pt
+      - key: POSTER_STATE
+        value: /tmp/state-pt.json
+      - key: DEGENSCAN_API_KEY
+        sync: false
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        value: "@degenscan_intel_br"

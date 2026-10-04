@@ -1,0 +1,9 @@
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      apiKey: { type: string, description: "Degenscan Intel key (dsi_...). Optional with x402 wallet." }
+      x402EvmKey: { type: string, description: "0x private key to pay per call in USDC on Base (optional)." }
+  commandFunction: |-
+    (config) => ({ command: "npx", args: ["-y", "degenscan-intel-mcp"], env: { DEGENSCAN_API_KEY: config.apiKey || "", DEGENSCAN_X402_EVM_KEY: config.x402EvmKey || "" } })

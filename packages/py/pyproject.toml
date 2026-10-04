@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "degenscan-intel"
+version = "0.1.0"
+description = "Official client for the Degenscan Intel API: Hyperliquid funding/carry data across all dexes (HIP-3 included), event feed, derivatives, Polymarket context and a forecast oracle. Pay per call in USDC via x402 or use an API key."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [{ name = "Marbella Collins LLC", email = "contact@degenscan.io" }]
+keywords = ["hyperliquid", "funding-rate", "carry", "hip-3", "x402", "usdc", "ai-agents", "polymarket", "market-data", "mcp"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Topic :: Office/Business :: Financial",
+  "Intended Audience :: Developers",
+]
+dependencies = ["httpx>=0.25"]
+
+[project.optional-dependencies]
+x402-evm = ["x402[evm,httpx]>=2.25", "eth-account>=0.13"]
+x402-svm = ["x402[svm,httpx]>=2.25"]
+dev = ["pytest>=8", "pytest-asyncio>=0.23"]
+
+[project.urls]
+Homepage = "https://intel.degenscan.io"
+Documentation = "https://intel.degenscan.io/docs/carry"
+Repository = "https://github.com/tradewr333-lgtm/intel-sdk"
+
+[tool.hatch.build.targets.wheel]
+packages = ["degenscan_intel"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

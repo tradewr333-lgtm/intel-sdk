@@ -1,0 +1,47 @@
+{
+  "name": "degenscan-intel",
+  "version": "0.1.0",
+  "description": "Official client for the Degenscan Intel API: Hyperliquid funding/carry data across all dexes (HIP-3 included), event feed, derivatives, Polymarket context and a calibrated forecast oracle. Pays per call in USDC via x402, or uses an API key.",
+  "keywords": ["hyperliquid", "funding-rate", "carry", "hip-3", "x402", "usdc", "mcp", "ai-agents", "polymarket", "market-data", "degenscan"],
+  "homepage": "https://intel.degenscan.io",
+  "repository": { "type": "git", "url": "https://github.com/tradewr333-lgtm/intel-sdk", "directory": "packages/js" },
+  "license": "MIT",
+  "author": "Marbella Collins LLC <contact@degenscan.io>",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js", "require": "./dist/index.cjs" }
+  },
+  "files": ["dist", "README.md", "LICENSE"],
+  "sideEffects": false,
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean --target node18",
+    "test": "node --test --import tsx test/*.test.ts",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "peerDependencies": {
+    "@scure/base": ">=1.1",
+    "@solana/kit": ">=5.1",
+    "@x402/evm": ">=2",
+    "@x402/fetch": ">=2",
+    "@x402/svm": ">=2",
+    "viem": ">=2"
+  },
+  "peerDependenciesMeta": {
+    "@scure/base": { "optional": true },
+    "@solana/kit": { "optional": true },
+    "@x402/evm": { "optional": true },
+    "@x402/fetch": { "optional": true },
+    "@x402/svm": { "optional": true },
+    "viem": { "optional": true }
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsup": "^8.5.1",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}
