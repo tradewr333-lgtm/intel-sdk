@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "degenscan-intel"
+version = "0.3.0"
+description = "Cross-asset market-event intelligence for AI trading agents (SEC, Fed, regulators, disasters, halts, hacks, Polymarket, Hyperliquid perps) + Carry Oracle: Hyperliquid funding across all dexes, HIP-3 included. Pays per call in USDC via x402 or uses an API key."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [{ name = "Marbella Collins LLC", email = "contact@degenscan.io" }]
+keywords = ['agentkit', 'ai-agents', 'base', 'federal-reserve', 'funding-rate', 'hyperliquid', 'langchain', 'market-data', 'market-events', 'mcp', 'polymarket', 'sec-edgar', 'trading-bot', 'usdc', 'x402', 'carry', 'hip-3', 'funding-arbitrage']
+dependencies = ["httpx>=0.27"]
+
+[project.optional-dependencies]
+x402 = ["x402>=2.24", "eth-account>=0.13"]
+
+[project.urls]
+Homepage = "https://intel.degenscan.io"
+Documentation = "https://intel.degenscan.io/docs/carry"
+Repository = "https://github.com/tradewr333-lgtm/degenscan-intel"
+SDK = "https://github.com/tradewr333-lgtm/intel-sdk"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/degenscan_intel"]

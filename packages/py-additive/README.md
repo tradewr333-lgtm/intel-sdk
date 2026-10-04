@@ -1,25 +1,3 @@
-Metadata-Version: 2.5
-Name: degenscan-intel
-Version: 0.2.0
-Summary: Cross-asset market-event intelligence for AI trading agents (SEC, Fed, regulators, disasters, halts, hacks, Polymarket, Hyperliquid perps). Pays per call in USDC via x402 or uses an API key.
-Project-URL: Homepage, https://intel.degenscan.io
-Project-URL: Documentation, https://intel.degenscan.io/llms.txt
-Project-URL: Repository, https://github.com/tradewr333-lgtm/degenscan-intel
-Author-email: Marbella Collins LLC <contact@degenscan.io>
-License: MIT
-License-File: LICENSE
-Keywords: agentkit,ai-agents,base,federal-reserve,funding-rate,hyperliquid,langchain,market-data,market-events,mcp,polymarket,sec-edgar,trading-bot,usdc,x402
-Classifier: Intended Audience :: Developers
-Classifier: License :: OSI Approved :: MIT License
-Classifier: Programming Language :: Python :: 3
-Classifier: Topic :: Office/Business :: Financial
-Requires-Python: >=3.10
-Requires-Dist: httpx>=0.27
-Provides-Extra: x402
-Requires-Dist: eth-account>=0.13; extra == 'x402'
-Requires-Dist: x402>=2.24; extra == 'x402'
-Description-Content-Type: text/markdown
-
 # degenscan-intel
 
 Market-event intelligence for AI trading agents, paid per call in USDC (x402) or with an API key.
@@ -29,6 +7,20 @@ One normalized feed of price-moving events from ~40 primary sources — SEC EDGA
 - Service: `https://intel.degenscan.io` · MCP: `POST https://intel.degenscan.io/mcp` · OpenAPI: `/openapi.json` · Docs for LLMs: `/llms.txt`
 - Prices: $0.001–$0.02 per call (brief $0.10). No subscription needed. Free trial: 100 calls/day/IP.
 - Operator: Marbella Collins LLC · MIT · Information and analytics only — not investment advice.
+
+## Carry Oracle (new in 0.3.0)
+
+Hyperliquid funding across **every dex (HIP-3 included)**, stored hourly beyond the 500 h window; cross-dex same-ticker spreads; spot×perp basis; and, with a Carry Desk key, eligibility filter, per-pair capacity, net realized carry, after-hours premium and webhook alerts.
+
+```python
+from degenscan_intel import Intel
+intel = Intel(api_key="dsi_carry_...")          # US$100/month, or pay per call with private_key
+for p in intel.carry_xdex(min_vol=1_000_000)["items"]:
+    print(p["base"], p["spread_apr_14d"], [l["coin"] for l in p["legs"]])
+hist = intel.carry_history("xyz:NBIS", hours=336)   # HIP-3 coins carry a dex prefix
+```
+
+Methods: `carry_stats` (free), `carry_funding_matrix`, `carry_xdex`, `carry_spot_perp`, `carry_history`, `carry_naked`, `carry_watchdog`, `carry_eligible`, `carry_capacity`, `carry_realized`, `carry_afterhours`, `carry_alerts`, `carry_alert_create`, `carry_alert_delete`, `buy_carry_month` (100 USDC = 30 days), `buy_carry_desk_month` (450 USDC). Pricing: https://intel.degenscan.io/carry · Docs with real responses: https://intel.degenscan.io/docs/carry · MCP: `npx degenscan-intel-mcp`.
 
 ## Install
 
