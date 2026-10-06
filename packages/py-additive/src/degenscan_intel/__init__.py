@@ -24,7 +24,7 @@ from typing import Any, Iterable, Optional
 import httpx
 
 __all__ = ["Intel", "AsyncIntel", "IntelError", "__version__"]
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 DEFAULT_BASE_URL = "https://intel.degenscan.io"
 
 
@@ -40,7 +40,10 @@ def _q(params: dict[str, Any]) -> dict[str, str]:
     for k, v in params.items():
         if v is None:
             continue
-        out[k] = ",".join(map(str, v)) if isinstance(v, (list, tuple)) else str(v)
+        if isinstance(v, bool):
+            out[k] = "true" if v else "false"
+        else:
+            out[k] = ",".join(map(str, v)) if isinstance(v, (list, tuple)) else str(v)
     return out
 
 
@@ -280,7 +283,28 @@ class AsyncIntel:
             raise IntelError("buy_carry_desk_month needs a paying wallet (private_key) - it is paid in USDC", 400)
         return await self.request("/v1/keys/x402/carry_desk_month", method="POST", body={})
 
+    # ---- macro / public-data routes (0.10.36) ----------------------------------------
+    async def br_premium(self):
+        """Crypto-dollar (USDT/USDC-BRL) and BTC premium in Brazil vs BCB PTAX. US$0.002."""
+        return await self.request("/v1/br/premium")
+
+    async def stablecoin_supply(self):
+        """Stablecoin supply, 1d/7d/30d net change, depegs. US$0.002."""
+        return await self.request("/v1/stablecoins")
+
+    async def treasury_auctions(self):
+        """U.S. Treasury auction results (high yield, bid-to-cover, bidder split) and upcoming auctions. US$0.003."""
+        return await self.request("/v1/treasury/auctions")
+
+    async def defi_yields(self, min_tvl: Optional[float] = None, include_extreme: Optional[bool] = None, limit: Optional[int] = None):
+        """Stablecoin pool APYs above a TVL floor, 30d mean, reward share, outlier flag. Not a risk rating. US$0.003."""
+        return await self.request("/v1/defi/yields", query={"min_tvl": min_tvl, "include_extreme": include_extreme, "limit": limit})
+
     # ---- keys -----------------------------------------------------------------------
+    async def trial_key(self, email: str):
+        """Free trial key: 200 calls, 7 days, no card (Carry Data routes + event feed; not the oracle). One per e-mail. Returns {api_key, ...}."""
+        return await self.request("/v1/keys/trial", method="POST", body={"email": email})
+
     async def buy_pack(self, pack: str = "pack_1k"):
         """Buy a prepaid API key with USDC (needs private_key). pack_1k $5 · pack_10k $40 · pack_100k $300 -> {api_key, total_calls}."""
         if not self.private_key and self._client is None:

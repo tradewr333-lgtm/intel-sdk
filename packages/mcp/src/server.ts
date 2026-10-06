@@ -207,6 +207,16 @@ server.registerTool("oracle_track_record", { title: "Public track record (free)"
 
 /* ---------------------------------- Keys ---------------------------------- */
 
+server.registerTool("intel_br_premium", { title: "Crypto-dollar premium in Brazil", description: "USDT/USDC-BRL vs BCB PTAX and BTC-BRL vs global BTC. US$0.002.", inputSchema: {}, annotations: ro }, () => run(() => intel.intel.brPremium()));
+server.registerTool("intel_stablecoins", { title: "Stablecoin supply", description: "Supply and 1d/7d/30d net change per stablecoin and total; depegs. US$0.002.", inputSchema: {}, annotations: ro }, () => run(() => intel.intel.stablecoins()));
+server.registerTool("intel_treasury_auctions", { title: "U.S. Treasury auctions", description: "Recent results (high yield, bid-to-cover, bidder split) and upcoming auctions with size. US$0.003.", inputSchema: {}, annotations: ro }, () => run(() => intel.intel.treasuryAuctions()));
+server.registerTool("intel_defi_yields", { title: "Stablecoin DeFi yields", description: "Pools above a TVL floor: APY, 30d mean, reward-token share, outlier flag. Not a risk rating. US$0.003.", inputSchema: { min_tvl: z.number().optional(), include_extreme: z.boolean().optional(), limit: z.number().int().optional() }, annotations: ro }, (a) => run(() => intel.intel.defiYields(a)));
+
+server.registerTool("keys_trial", {
+  title: "Get a free trial key (200 calls, 7 days)",
+  description: "No card, no account. Returns a dsi_trial_ key valid for Carry Data routes and the event feed (not the oracle, not Carry Desk). Save it and set DEGENSCAN_API_KEY. One per e-mail.",
+  inputSchema: { email: z.string() }, annotations: { readOnlyHint: false, destructiveHint: false, openWorldHint: true },
+}, ({ email }) => run(() => intel.keys.trial(email)));
 server.registerTool("keys_me", { title: "Key status", description: "Remaining credits / tier / expiry of the configured key. Free.", inputSchema: {}, annotations: ro }, () => run(() => intel.keys.me()));
 server.registerTool("keys_buy_carry_month", {
   title: "Buy 30 days of Carry Data (100 USDC via x402)",

@@ -8,6 +8,18 @@ One normalized feed of price-moving events from ~40 primary sources — SEC EDGA
 - Prices: $0.001–$0.02 per call (brief $0.10). No subscription needed. Free trial: 100 calls/day/IP.
 - Operator: Marbella Collins LLC · MIT · Information and analytics only — not investment advice.
 
+## Free trial key (no card) — new in 0.4.0
+
+```python
+from degenscan_intel import Intel
+key = Intel().trial_key("you@example.com")["api_key"]   # 200 calls, 7 days; Carry Data routes + event feed
+intel = Intel(api_key=key)
+intel.br_premium()          # crypto-dollar premium in Brazil vs BCB PTAX      (US$0.002)
+intel.stablecoin_supply()   # supply, 1d/7d/30d net change, depegs              (US$0.002)
+intel.treasury_auctions()   # U.S. Treasury auction results + schedule          (US$0.003)
+intel.defi_yields(min_tvl=10_000_000)  # stablecoin pool APYs, 30d mean, reward share, outlier flag (US$0.003)
+```
+
 ## Carry Oracle (new in 0.3.0)
 
 Hyperliquid funding across **every dex (HIP-3 included)**, stored hourly beyond the 500 h window; cross-dex same-ticker spreads; spot×perp basis; and, with a Carry Desk key, eligibility filter, per-pair capacity, net realized carry, after-hours premium and webhook alerts.

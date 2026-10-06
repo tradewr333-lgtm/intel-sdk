@@ -279,6 +279,14 @@ export class IntelClient {
     filings: (ticker: string, q?: { since?: string; forms?: string }) => this.request("GET", `/v1/filings/${encodeURIComponent(ticker)}`, { query: q }),
     calendar: (q?: { days?: number; types?: string; universe?: string }) => this.request("GET", "/v1/calendar", { query: q }),
     brief: (asset: string, q?: { since?: string }) => this.request("GET", `/v1/brief/${encodeURIComponent(asset)}`, { query: q }),
+    /** Crypto-dollar (USDT/USDC-BRL) and BTC premium in Brazil vs BCB PTAX. US$0.002. */
+    brPremium: () => this.request("GET", "/v1/br/premium"),
+    /** Stablecoin supply, 1d/7d/30d net change, depegs. US$0.002. */
+    stablecoins: () => this.request("GET", "/v1/stablecoins"),
+    /** U.S. Treasury auction results (high yield, bid-to-cover, bidder split) and upcoming auctions. US$0.003. */
+    treasuryAuctions: () => this.request("GET", "/v1/treasury/auctions"),
+    /** Stablecoin pool APYs above a TVL floor, 30d mean, reward share, outlier flag. US$0.003. */
+    defiYields: (q?: { min_tvl?: number; include_extreme?: boolean; limit?: number }) => this.request("GET", "/v1/defi/yields", { query: q }),
     universe: () => this.request("GET", "/v1/universe", { pay: false }),
     sources: () => this.request("GET", "/v1/sources", { pay: false }),
   };
@@ -312,6 +320,8 @@ export class IntelClient {
   readonly keys = {
     /** Remaining budget / tier of the configured key. */
     me: () => this.request<KeyInfo>("GET", "/v1/keys/me", { pay: false }),
+    /** Free trial key: 200 calls, 7 days, no card (Carry Data routes + event feed; not the oracle). 1 per e-mail. */
+    trial: (email: string) => this.request<KeyInfo>("POST", "/v1/keys/trial", { body: { email }, pay: false }),
     /** 100 USDC = 30 days of Carry Data, unlimited. Needs x402 configured. Returns the new key: store it. */
     buyCarryMonth: () => this.request<KeyInfo>("POST", "/v1/keys/x402/carry_month"),
     /** 450 USDC = 30 days of Carry Desk (25 seats per wave). Needs x402 configured. */

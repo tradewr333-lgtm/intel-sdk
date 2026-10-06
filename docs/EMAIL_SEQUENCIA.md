@@ -9,6 +9,14 @@
 3. Limites: 30 e-mails/dia por caixa, 3 passos, parar ao responder. Unsubscribe em todas.
 4. Variáveis: `{first_name}`, `{company}`, `{hook}` (coluna "Por que compraria" da planilha, reescrita em 1 frase), `{segment}`.
 
+## Atualização 07/10 — chave de teste grátis e leaderboard (usar em TODOS os passos)
+
+Existe agora: **chave de teste grátis** (200 chamadas, 7 dias, sem cartão) em `intel.degenscan.io/carry` ou `POST /v1/keys/trial {email}`; e a **vitrine pública** `intel.degenscan.io/carry/leaderboard` (top 5 de cada tabela, 1 h de atraso) + `/carry/coin/{moeda}`. Todo e-mail do passo 1 termina com a linha:
+
+> Try it first: free key with 200 calls, no card — intel.degenscan.io/carry · live sample: intel.degenscan.io/carry/leaderboard
+
+Passo 2 passa a linkar a página da moeda do dia (`/carry/coin/xyz:NBIS`). Resposta a "tem teste grátis?": "Yes — 200 calls, no card: intel.degenscan.io/carry".
+
 ## Segmentos e assunto
 
 | Segmento | Assunto A | Assunto B |
@@ -64,7 +72,7 @@
 - "price?" → link `/carry` + 2 linhas.
 - "license/terms" → PDF de termos Enterprise (a fazer: 1 página, a partir de US$ 1.500/mês ou revenue share; sem exclusividade; atribuição "data by Degenscan Intel").
 - "demo/call?" → "No calls — everything is self-serve; here is a sample with real data: /docs/carry. Pay-per-call lets you test for a few cents."
-- "can I get it free?" → "Pay-per-call is cents; the free trial covers the event feed, not carry."
+- "can I get it free?" → "Yes: free trial key, 200 calls / 7 days, no card — intel.degenscan.io/carry. After that pay-per-call is cents, or US$100/month."
 - objeções → tabela do relatório do construtor §9.
 
 *Market data and analytics only — not a signal, not investment advice.*

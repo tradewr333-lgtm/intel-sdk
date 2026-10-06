@@ -6,6 +6,10 @@ Works in Claude Desktop, Claude Code, Cursor, Windsurf, Cline, Zed and any MCP c
 
 > Market data and analytics only — not a signal, not investment advice.
 
+## Free trial key
+
+Ask the assistant to call the `keys_trial` tool with your e-mail: it returns a `dsi_trial_` key (200 calls, 7 days, no card). Put it in `DEGENSCAN_API_KEY`. Or get it on https://intel.degenscan.io/carry.
+
 ## Install
 
 ```bash
@@ -37,6 +41,8 @@ Solana USDC: `"DEGENSCAN_X402_SVM_KEY": "<base58 secret>"`. Free trial on the ev
 Prefer a hosted server? The same tools are served at `https://intel.degenscan.io/mcp` (streamable HTTP).
 
 ## Tools
+
+New in 0.2.0: `keys_trial`, `intel_br_premium`, `intel_stablecoins`, `intel_treasury_auctions`, `intel_defi_yields`.
 
 | Tool | What it returns | Access |
 |---|---|---|

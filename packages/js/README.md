@@ -13,6 +13,13 @@ npm install @x402/fetch @x402/evm viem          # Base (USDC)
 npm install @x402/fetch @x402/svm @solana/kit @scure/base   # Solana (USDC)
 ```
 
+## Free trial key (no card)
+
+```ts
+const { api_key } = await new IntelClient().keys.trial("you@example.com"); // 200 calls, 7 days
+```
+Or on the site: https://intel.degenscan.io/carry → "Free trial key". Covers Carry Data routes + the event feed (not the oracle, not Carry Desk).
+
 ## 30-second start
 
 ```ts
@@ -32,6 +39,8 @@ const naked = await agent.carry.naked({ min_abs_apr: 1 });   // US$0.01 per call
 ```
 
 ## What you can call
+
+Also (0.2.0): `intel.intel.brPremium()` (crypto-dollar premium in Brazil vs BCB PTAX), `intel.intel.stablecoins()` (supply, 1d/7d/30d net change, depegs), `intel.intel.treasuryAuctions()` (U.S. Treasury auction results + schedule), `intel.intel.defiYields({ min_tvl })` (stablecoin pool APYs, 30d mean, reward share, outlier flag). US$0.002–0.003 per call.
 
 | Group | Methods | Access |
 |---|---|---|
