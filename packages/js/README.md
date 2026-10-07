@@ -40,6 +40,8 @@ const naked = await agent.carry.naked({ min_abs_apr: 1 });   // US$0.01 per call
 
 ## What you can call
 
+Micro-routes (0.3.0, US$0.001–0.002, built for agent loops): `intel.carry.now("xyz:NBIS")`, `intel.carry.top({ n: 5 })`, `intel.carry.spread("NBIS")`, `intel.intel.hlMarkets()`, `intel.intel.brPtax()`, `intel.intel.stablecoinsTotal()`, `intel.intel.treasuryNext()`.
+
 Also (0.2.0): `intel.intel.brPremium()` (crypto-dollar premium in Brazil vs BCB PTAX), `intel.intel.stablecoins()` (supply, 1d/7d/30d net change, depegs), `intel.intel.treasuryAuctions()` (U.S. Treasury auction results + schedule), `intel.intel.defiYields({ min_tvl })` (stablecoin pool APYs, 30d mean, reward share, outlier flag). US$0.002–0.003 per call.
 
 | Group | Methods | Access |

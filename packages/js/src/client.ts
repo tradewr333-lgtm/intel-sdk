@@ -250,6 +250,10 @@ export class IntelClient {
         "GET",
         coin ? `/v1/carry/afterhours/${encodeURIComponent(coin)}` : "/v1/carry/afterhours",
       ),
+    /** Micro-routes (US$0.001–0.002, cached 60 s, Base + Solana): built for agent loops. */
+    now: (coin: string) => this.request("GET", `/v1/carry/now/${encodeURIComponent(coin)}`),
+    top: (q?: { n?: number }) => this.request("GET", "/v1/carry/top", { query: q }),
+    spread: (base: string) => this.request("GET", `/v1/carry/spread/${encodeURIComponent(base)}`),
     alerts: {
       list: () => this.request<{ items: Alert[] } | Alert[]>("GET", "/v1/carry/alerts"),
       create: (body: CreateAlertBody) => this.request<Alert>("POST", "/v1/carry/alerts", { body }),
@@ -287,6 +291,11 @@ export class IntelClient {
     treasuryAuctions: () => this.request("GET", "/v1/treasury/auctions"),
     /** Stablecoin pool APYs above a TVL floor, 30d mean, reward share, outlier flag. US$0.003. */
     defiYields: (q?: { min_tvl?: number; include_extreme?: boolean; limit?: number }) => this.request("GET", "/v1/defi/yields", { query: q }),
+    /** Micro-routes, US$0.001 each: active Hyperliquid markets per dex; PTAX + USDT/BRL premium; total stablecoin supply; next Treasury auctions. */
+    hlMarkets: () => this.request("GET", "/v1/hl/markets"),
+    brPtax: () => this.request("GET", "/v1/br/ptax"),
+    stablecoinsTotal: () => this.request("GET", "/v1/stablecoins/total"),
+    treasuryNext: () => this.request("GET", "/v1/treasury/next"),
     universe: () => this.request("GET", "/v1/universe", { pay: false }),
     sources: () => this.request("GET", "/v1/sources", { pay: false }),
   };

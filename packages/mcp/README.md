@@ -42,6 +42,8 @@ Prefer a hosted server? The same tools are served at `https://intel.degenscan.io
 
 ## Tools
 
+New in 0.3.0 (micro-routes, US$0.001–0.002): `carry_now`, `carry_top`, `carry_spread`, `intel_hl_markets`, `intel_br_ptax`, `intel_stablecoins_total`, `intel_treasury_next`.
+
 New in 0.2.0: `keys_trial`, `intel_br_premium`, `intel_stablecoins`, `intel_treasury_auctions`, `intel_defi_yields`.
 
 | Tool | What it returns | Access |

@@ -20,6 +20,13 @@ intel.treasury_auctions()   # U.S. Treasury auction results + schedule          
 intel.defi_yields(min_tvl=10_000_000)  # stablecoin pool APYs, 30d mean, reward share, outlier flag (US$0.003)
 ```
 
+## Micro-routes (0.5.0) — US$0.001–0.002 per call, for agent loops
+
+```python
+intel.carry_now("xyz:NBIS"); intel.carry_top(n=5); intel.carry_spread("NBIS")
+intel.hl_markets(); intel.br_ptax(); intel.stablecoins_total(); intel.treasury_next()
+```
+
 ## Carry Oracle (new in 0.3.0)
 
 Hyperliquid funding across **every dex (HIP-3 included)**, stored hourly beyond the 500 h window; cross-dex same-ticker spreads; spot×perp basis; and, with a Carry Desk key, eligibility filter, per-pair capacity, net realized carry, after-hours premium and webhook alerts.

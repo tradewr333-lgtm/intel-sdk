@@ -24,7 +24,7 @@ from typing import Any, Iterable, Optional
 import httpx
 
 __all__ = ["Intel", "AsyncIntel", "IntelError", "__version__"]
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 DEFAULT_BASE_URL = "https://intel.degenscan.io"
 
 
@@ -282,6 +282,35 @@ class AsyncIntel:
         if not self.private_key and self._client is None:
             raise IntelError("buy_carry_desk_month needs a paying wallet (private_key) - it is paid in USDC", 400)
         return await self.request("/v1/keys/x402/carry_desk_month", method="POST", body={})
+
+    # ---- micro-routes (0.10.38): US$0.001-0.002, cached 60 s, Base + Solana -----------
+    async def carry_now(self, coin: str):
+        """Funding now (annualized), 8h/24h mean, mark, oracle, OI, volume for one perp on any dex (e.g. 'xyz:NBIS'). US$0.001."""
+        return await self.request(f"/v1/carry/now/{coin}")
+
+    async def carry_top(self, n: Optional[int] = None):
+        """Top-n cross-dex HIP-3 spreads and top-n perp x spot funding right now. US$0.002."""
+        return await self.request("/v1/carry/top", query={"n": n})
+
+    async def carry_spread(self, base: str):
+        """Legs, funding now and 14d, spread and basis of one ticker listed on 2+ dexes. US$0.001."""
+        return await self.request(f"/v1/carry/spread/{base}")
+
+    async def hl_markets(self):
+        """Active Hyperliquid markets per dex. US$0.001."""
+        return await self.request("/v1/hl/markets")
+
+    async def br_ptax(self):
+        """Today's PTAX, USDT/BRL now and the premium. US$0.001."""
+        return await self.request("/v1/br/ptax")
+
+    async def stablecoins_total(self):
+        """Total stablecoin supply, 24h/7d change, top-3. US$0.001."""
+        return await self.request("/v1/stablecoins/total")
+
+    async def treasury_next(self):
+        """Upcoming U.S. Treasury auctions and the last result. US$0.001."""
+        return await self.request("/v1/treasury/next")
 
     # ---- macro / public-data routes (0.10.36) ----------------------------------------
     async def br_premium(self):
